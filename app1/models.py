@@ -76,4 +76,15 @@ class CourseResource(models.Model):
 
 
 
+class UserInfo(models.Model):
+    username = models.CharField(max_length=32)
+    password = models.CharField(max_length=64)
+
+
+from datetime import datetime
+
+class Token(models.Model):
+    user = models.OneToOneField('UserInfo')
+    token = models.CharField(max_length=64)
+    create_time = models.DateTimeField(auto_created=True, default=datetime.now)
 

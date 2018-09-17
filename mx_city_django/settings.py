@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'app1.apps.App1Config',
     'app1',
     'rest_framework'
 ]
@@ -51,7 +50,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'app1.my_md.CORSMiddleware',
-
 ]
 
 from django.contrib.sessions.middleware import MiddlewareMixin

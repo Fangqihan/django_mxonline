@@ -1,12 +1,10 @@
 from rest_framework.views import APIView
-from django.http import JsonResponse
-from rest_framework.views import APIView
-from .models import Course
 from rest_framework import serializers
 from rest_framework.response import Response
-from django.http import JsonResponse
-import json
-from .models import Course
+from .models import Course, UserInfo,Token
+from django.shortcuts import render
+import uuid
+from app1.auth.auth import TokenAuth
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -24,6 +22,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class CourseView(APIView):
+    authentication_classes = [TokenAuth,]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk', '')
@@ -45,11 +44,25 @@ class CourseView(APIView):
         return Response(ret)
 
 
-from django.shortcuts import render
-
 def test(request):
     course_obj = Course.objects.all().first()
     return render(request,'test.html',locals())
 
+
+class LoginView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        ret = {'code': 1000}
+        user = request.data.get('user','')
+        pwd = request.data.get('pwd','')
+        user_obj = UserInfo.objects.filter(username=user,password=pwd).first()
+        if not user_obj:
+            ret['code'] = 1001
+            ret['error'] = "用户名或密码错误"
+        else:
+            token = str(uuid.uuid4())
+            Token.objects.update_or_create(user_id=user_obj.id,defaults={'token':token})
+            ret['token']= token
+        return Response(ret)
 
 

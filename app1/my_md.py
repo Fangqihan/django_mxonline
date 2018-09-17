@@ -22,9 +22,10 @@ class CORSMiddleware(MiddlewareMixin):
         response['Access-Control-Allow-Origin'] = "*"
 
         # 允许你携带Content-Type请求头
-        # response['Access-Control-Allow-Headers'] = "Content-Type"
+        response['Access-Control-Allow-Headers'] = "Content-Type"
 
         # 允许你发送DELETE,PUT
-        # response['Access-Control-Allow-Methods'] = "DELETE,PUT"
+        response['Access-Control-Allow-Methods'] = "POST,GET"
         return response
+
 
